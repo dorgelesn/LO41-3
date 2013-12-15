@@ -10,14 +10,14 @@
 #include <pthread.h>
 #include "piece.h"
 
-volatile int Anneau[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
+volatile struct Piece Anneau[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 
 int main (void)
 {
 	int j = 0;
 	while(j<4)
 	{
-		int tampon1, tampon2;
+		struct Piece tampon1, tampon2;
 		int i;
 		tampon1 = Anneau[0];
 		for(i =0; i<16;i++)
@@ -35,6 +35,9 @@ int main (void)
 		printf("\n");
 		j++;
 	}
+
+	struct Piece piece = newPiece(1,1);
+	printf("etat %d, num %d", piece.etat, piece.numProduit);
 
 	return 0;
 }

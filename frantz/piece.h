@@ -8,9 +8,11 @@
 #ifndef PIECE_H_
 #define PIECE_H_
 
-struct Piece {
+typedef struct Piece {
 	int numProduit;
 	int etat;
 };
+
+struct Piece newPiece(int numProduit, int etat);
 
 #endif /* PIECE_H_ */
