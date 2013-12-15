@@ -4,7 +4,7 @@
 #include "piece.h"
 
 
-void Robot_1(int nb1,int tp1,*oper1){
+void Robot_1(int nb1,int tp1,*oper1{
 printf("Je suis le Robot n°1 ");
 nb1=3;
 tp1=1;
