@@ -39,6 +39,7 @@ int main (void)
 	struct Piece piece = newPiece(1,1);
 	printf("etat %d, num %d", piece.etat, piece.numProduit);
 
+
 	return 0;
 }
 
