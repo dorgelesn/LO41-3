@@ -15,3 +15,9 @@ struct Piece newPiece(int numProduit, int etat)
 	return piece;
 }
 
+int testPiece(struct Piece piece, int numProduit, int etat)
+{
+	if((piece.numProduit == numProduit ) & (piece.etat == etat))
+			return 1;
+	else return 0;
+}
