@@ -15,8 +15,11 @@
 int main (void){
 	int j = 0;
 	int i;
+
+	pthread_t thread1;
+	int pid = getpid();
 	//initialisation
-	for(i =0; i<16;i++)
+	for(i =0; i<SIZE_ANNEAU;i++)
 			{
 				Anneau[i]= newPiece(i,0);
 			}
@@ -28,15 +31,15 @@ int main (void){
 	    pthread_mutex_lock(&lock);
 
 		tampon1 = Anneau[0];
-		for(i =0; i<16;i++)
+		for(i =0; i<SIZE_ANNEAU;i++)
 		{
-			tampon2 = Anneau[(i+1)%16];
-			Anneau[(i+1)%16] = tampon1;
+			tampon2 = Anneau[(i+1)%SIZE_ANNEAU];
+			Anneau[(i+1)%SIZE_ANNEAU] = tampon1;
 			tampon1 = tampon2;
 		}
 
 		//affichage de l'anneau
-		for(i = 0; i<16;i++)
+		for(i = 0; i<SIZE_ANNEAU;i++)
 		{
 			printf("Anneau %d: %d \n", i,Anneau[i].numProduit);
 		}

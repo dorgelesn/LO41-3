@@ -8,8 +8,8 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-
-volatile struct Piece Anneau[16];
+const int SIZE_ANNEAU = 16;
+volatile struct Piece Anneau[SIZE_ANNEAU];
 pthread_mutex_t lock;
 
 #endif /* MAIN_H_ */
