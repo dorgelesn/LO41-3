@@ -13,8 +13,9 @@ struct Piece op1(struct Piece ressource[]) {
 	switch (ressource[0].numProduit) {
 	case (1): {
 		//on vérifie qu'on n'a 3 C1
-		if ((testPiece(ressource[0], 1, 1)) && (testPiece(ressource[1], 1, 1))
-				&& (testPiece(ressource[2], 1, 1)))
+		if ((testPiece(ressource[0], 1, 1)) &&
+				(testPiece(ressource[1], 1, 1)) &&
+				(testPiece(ressource[2], 1, 1)))
 			return newPiece(1, 2);
 		else
 			break;
@@ -46,27 +47,29 @@ struct Piece op1(struct Piece ressource[]) {
 	default:
 		break;
 	}
-	return 0;
+
+	return newPiece(0,0) ;
 }
 
 struct Piece op2(struct Piece ressource[]) {
 	switch (ressource[0].numProduit) {
-		case (1): {
-			if (testPiece(ressource[0], 1, 2))
-				return newPiece(1, 3);
-			else
-				break;
-		}
-		case (2): {
-			if ((testPiece(ressource[0], 2, 1)) && (testPiece(ressource[1], 2,1)) && (testPiece(ressource[2],2,1)))
-				return newPiece(2, 2);
-			else
-				break;
-		}
-		default:
+	case (1): {
+		if (testPiece(ressource[0], 1, 2))
+			return newPiece(1, 3);
+		else
 			break;
-		}
-		return 0;
+	}
+	case (2): {
+		if ((testPiece(ressource[0], 2, 1)) && (testPiece(ressource[1], 2, 1))
+				&& (testPiece(ressource[2], 2, 1)))
+			return newPiece(2, 2);
+		else
+			break;
+	}
+	default:
+		break;
+	}
+	return newPiece(0, 0) ;
 }
 
 struct Piece op3(struct Piece ressource[]) {
@@ -90,10 +93,11 @@ struct Piece op3(struct Piece ressource[]) {
 			return newPiece(4, 4);
 		else
 			break;
-	default:
+		default:
 		break;
 	}
-	return 0;
+	}
+	return newPiece(0,0);
 }
 
 	struct Piece op4(struct Piece ressource[]) {
@@ -105,7 +109,8 @@ struct Piece op3(struct Piece ressource[]) {
 				break;
 		}
 		case (4): {
-			if ((testPiece(ressource[0], 4, 1)) && (testPiece(ressource[1],4,1)))
+			if ((testPiece(ressource[0], 4, 1))
+					&& (testPiece(ressource[1], 4, 1)))
 				return newPiece(4, 2);
 			else
 				break;
@@ -113,7 +118,7 @@ struct Piece op3(struct Piece ressource[]) {
 		default:
 			break;
 		}
-		return 0;
+		return newPiece(0,0);
 	}
 
 	struct Piece op5(struct Piece ressource[]) {
@@ -134,7 +139,7 @@ struct Piece op3(struct Piece ressource[]) {
 		default:
 			break;
 		}
-		return 0;
+		return newPiece(0,0);
 	}
 
 	struct Piece op6(struct Piece ressource[]) {
@@ -154,5 +159,5 @@ struct Piece op3(struct Piece ressource[]) {
 		default:
 			break;
 		}
-		return 0;
+		return newPiece(0,0);
 	}

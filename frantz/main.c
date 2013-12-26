@@ -9,16 +9,24 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include "piece.h"
+#include "robot.h"
+#include "main.h"
 
-volatile struct Piece Anneau[16] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
-
-int main (void)
-{
+int main (void){
 	int j = 0;
+	int i;
+	//initialisation
+	for(i =0; i<16;i++)
+			{
+				Anneau[i]= newPiece(i,0);
+			}
+
+	//simulation de rataion de l'anneau
 	while(j<4)
 	{
 		struct Piece tampon1, tampon2;
-		int i;
+	    pthread_mutex_lock(&lock);
+
 		tampon1 = Anneau[0];
 		for(i =0; i<16;i++)
 		{
@@ -27,18 +35,16 @@ int main (void)
 			tampon1 = tampon2;
 		}
 
-
+		//affichage de l'anneau
 		for(i = 0; i<16;i++)
 		{
-			printf("Anneau %d: %d \n", i,Anneau[i]);
+			printf("Anneau %d: %d \n", i,Anneau[i].numProduit);
 		}
+	    pthread_mutex_unlock(&lock);
+
 		printf("\n");
 		j++;
 	}
-
-	struct Piece piece = newPiece(1,1);
-	printf("etat %d, num %d", piece.etat, piece.numProduit);
-
 
 	return 0;
 }
