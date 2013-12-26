@@ -16,7 +16,9 @@ const int R1 = 2;
 
 struct Piece prendre(int index)
 {
-    return Anneau[index];
+	struct Piece tampon = Anneau[index];
+	Anneau[index] = newPiece(0,0);
+    return tampon;
 }
 
 void poser(struct Piece piece, int index)
