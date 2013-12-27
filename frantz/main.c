@@ -6,24 +6,29 @@
  */
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include "piece.h"
 #include "robot.h"
 #include "main.h"
 
+
 int main (void){
 	int j = 0;
 	int i;
 
 	pthread_t thread1;
-	int pid = getpid();
+	//pid_t pid = getpid();
 	//initialisation
 	for(i =0; i<SIZE_ANNEAU;i++)
 			{
 				Anneau[i]= newPiece(i,0);
 			}
 
+	//creation des threads
+	int test = pthread_create(&thread1,NULL,Robot_1,NULL);
 	//simulation de rataion de l'anneau
 	while(j<4)
 	{
@@ -44,6 +49,7 @@ int main (void){
 			printf("Anneau %d: %d \n", i,Anneau[i].numProduit);
 		}
 	    pthread_mutex_unlock(&lock);
+	    sleep(2);
 
 		printf("\n");
 		j++;
