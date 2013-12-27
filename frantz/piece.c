@@ -21,3 +21,10 @@ int testPiece(struct Piece piece, int numProduit, int etat)
 			return 1;
 	else return 0;
 }
+
+int testEtatPiece(struct Piece piece, int etat)
+{
+	if(piece.etat == etat)
+			return 1;
+	else return 0;
+}

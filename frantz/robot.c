@@ -15,19 +15,23 @@
 
 const int R1 = 2;
 
-struct Piece prendre(int index)
-{
+struct Piece prendre(int index) {
 	struct Piece tampon = Anneau[index];
-	Anneau[index] = newPiece(0,0);
-    return tampon;
+	Anneau[index] = newPiece(0, 0);
+	return tampon;
 }
 
-void poser(struct Piece piece, int index)
-{
-    pthread_mutex_lock(&lock);
-	Anneau[index] = piece;
-    pthread_mutex_lock(&lock);
-
+void poser(struct Piece piece, int index) {
+	while (1) {
+		pthread_mutex_lock(&lock);
+		if (testPiece(Anneau[index],0,0)) {
+			Anneau[index] = piece;
+			pthread_mutex_unlock(&lock);
+			return;
+		}
+		pthread_mutex_unlock(&lock);
+		sleep(1);
+	}
 }
 
 void * Robot_1(void *arg) {
@@ -37,25 +41,33 @@ void * Robot_1(void *arg) {
 	while (1) {
 
 		pthread_mutex_lock(&lock);
-		if(compt == 0)
-		{
+		if (compt == 0) {
 			printf("prend piece: %d \n", Anneau[R1].numProduit);
 			stock[0] = prendre(R1);
 			compt++;
 		}
 		//on ne peut prendre qu'une piece deja prise
-		else if (testPiece(Anneau[R1], stock[0].numProduit, stock[0].etat))
-		{
+		else if (testPiece(Anneau[R1], stock[0].numProduit, stock[0].etat)) {
 			printf("prend piece: %d \n", Anneau[R1].numProduit);
 			printf("a deja piece: %d \n", stock[0].numProduit);
 			stock[compt] = prendre(R1);
-		}
-		else
-		{
+			compt++;
+		} else {
 			printf("piece %d incorrecte", Anneau[R1].numProduit);
 		}
 		pthread_mutex_unlock(&lock);
-		sleep(3);
+
+		if (testOp1(stock[0], compt)) {
+			printf("lancement de l'op1");
+			sleep(1);
+			struct Piece tampom = op1(stock);
+			if (!testPiece(tampom, 0, 0)) {
+				poser(tampom, R1);
+				compt = 0;
+			}
+		}
+
+		sleep(1);
 	}
-	pthread_exit(NULL);
+	pthread_exit(NULL );
 }

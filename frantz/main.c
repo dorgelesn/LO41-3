@@ -24,13 +24,13 @@ int main (void){
 	//initialisation
 	for(i =0; i<SIZE_ANNEAU;i++)
 			{
-				Anneau[i]= newPiece(i,0);
+				Anneau[i]= newPiece(i%2,i%2);
 			}
 
 	//creation des threads
-	int test = pthread_create(&thread1,NULL,Robot_1,NULL);
+	pthread_create(&thread1,NULL,Robot_1,NULL);
 	//simulation de rataion de l'anneau
-	while(j<4)
+	while(j<10)
 	{
 		struct Piece tampon1, tampon2;
 	    pthread_mutex_lock(&lock);
@@ -46,10 +46,10 @@ int main (void){
 		//affichage de l'anneau
 		for(i = 0; i<SIZE_ANNEAU;i++)
 		{
-			printf("Anneau %d: %d \n", i,Anneau[i].numProduit);
+			printf("Anneau %d: %d : %d \n", i,Anneau[i].numProduit, Anneau[i].etat);
 		}
 	    pthread_mutex_unlock(&lock);
-	    sleep(2);
+	    sleep(1);
 
 		printf("\n");
 		j++;
