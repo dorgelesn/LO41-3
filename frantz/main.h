@@ -13,4 +13,7 @@ static const int SIZE_ANNEAU = 16;
 volatile struct Piece Anneau[16];
 pthread_mutex_t lock;
 
+const int (*testOp[6]) (struct Piece piece, int compt);
+const struct Piece (*Op[6]) (struct Piece ressource[]);
+static const int index[6] = {2,4,8,10,12,14};
 #endif /* MAIN_H_ */

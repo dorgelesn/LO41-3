@@ -2,5 +2,5 @@
 #include <stdlib.h>
 
 
-void Robot_1();
+void Robot();
 

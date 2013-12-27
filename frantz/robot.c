@@ -13,18 +13,31 @@
 #include "operation.h"
 #include "main.h"
 
-const int R1 = 2;
-
-struct Piece prendre(int index) {
-	struct Piece tampon = Anneau[index];
-	Anneau[index] = newPiece(0, 0);
-	return tampon;
+void prendre(int *c, struct Piece *stock, int i) {
+	int compt = *c;
+	int pos = index[i];
+	if ((compt == 0) && ((testOp[i](Anneau[pos],1)) ||(testOp[i](Anneau[pos],3)))) {
+		printf("robot %d: prend piece: %d \n",i+1, Anneau[pos].numProduit);
+		stock[0] = Anneau[pos];
+		Anneau[pos] = newPiece(0, 0);
+		compt++;
+	}
+	//on ne peut prendre qu'une piece deja prise
+	else if (testPiece(Anneau[pos], stock[0].numProduit, stock[0].etat)) {
+		printf("robot %d: prend piece: %d \n",i+1, Anneau[pos].numProduit);
+		stock[compt] = Anneau[pos];
+		Anneau[pos] = newPiece(0, 0);
+		compt++;
+	} else {
+		printf("robot %d: piece %d incorrecte",i+1, Anneau[pos].numProduit);
+	}
+	*c = compt;
 }
 
 void poser(struct Piece piece, int index) {
 	while (1) {
 		pthread_mutex_lock(&lock);
-		if (testPiece(Anneau[index],0,0)) {
+		if (testPiece(Anneau[index], 0, 0)) {
 			Anneau[index] = piece;
 			pthread_mutex_unlock(&lock);
 			return;
@@ -34,39 +47,25 @@ void poser(struct Piece piece, int index) {
 	}
 }
 
-void * Robot_1(void *arg) {
+void * Robot(int num) {
 	int compt = 0;
 	struct Piece stock[3];
-	printf("Je suis le Robot n°1 ");
+	printf("Je suis le Robot n°% ",num+1);
 	while (1) {
 
 		pthread_mutex_lock(&lock);
-		if (compt == 0) {
-			printf("prend piece: %d \n", Anneau[R1].numProduit);
-			stock[0] = prendre(R1);
-			compt++;
-		}
-		//on ne peut prendre qu'une piece deja prise
-		else if (testPiece(Anneau[R1], stock[0].numProduit, stock[0].etat)) {
-			printf("prend piece: %d \n", Anneau[R1].numProduit);
-			printf("a deja piece: %d \n", stock[0].numProduit);
-			stock[compt] = prendre(R1);
-			compt++;
-		} else {
-			printf("piece %d incorrecte", Anneau[R1].numProduit);
-		}
+		prendre(&compt, stock, num);//atention
 		pthread_mutex_unlock(&lock);
 
-		if (testOp1(stock[0], compt)) {
+		if (testOp[num](stock[0], compt)) {
 			printf("lancement de l'op1");
 			sleep(1);
-			struct Piece tampom = op1(stock);
+			struct Piece tampom = Op[num](stock);
 			if (!testPiece(tampom, 0, 0)) {
-				poser(tampom, R1);
+				poser(tampom, index[num]);//attention
 				compt = 0;
 			}
 		}
-
 		sleep(1);
 	}
 	pthread_exit(NULL );
