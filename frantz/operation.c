@@ -28,8 +28,8 @@ struct Piece op1(struct Piece ressource[]) {
 	}
 	case (3): {
 		//on vérifie qu'on n'a 1 C3
-		if (testEtatPiece(ressource[0], 2))
-			return newPiece(3, 3);
+		if (testEtatPiece(ressource[0], 1))
+			return newPiece(3, 2);
 		//si on a un produit3 interédiaire a l'etat 4 on passe a l'etat 5
 		else if (testEtatPiece(ressource[0], 4))
 			return newPiece(3, 5);
@@ -80,8 +80,8 @@ struct Piece op3(struct Piece ressource[]) {
 			break;
 	}
 	case (3): {
-		if (testEtatPiece(ressource[0], 1))
-			return newPiece(3, 2);
+		if (testEtatPiece(ressource[0], 2))
+			return newPiece(3, 3);
 		else if (testEtatPiece(ressource[0], 5))
 			return newPiece(3, 6);
 		else
@@ -123,8 +123,7 @@ struct Piece op4(struct Piece ressource[]) {
 struct Piece op5(struct Piece ressource[]) {
 	switch (ressource[0].numProduit) {
 	case (1): {
-		//on vérifie qu'on n'a 3 C1
-		if (testEtatPiece(ressource[2], 4))
+		if (testEtatPiece(ressource[0], 4))
 			return newPiece(1, 5);
 		else
 			break;

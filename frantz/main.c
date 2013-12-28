@@ -41,15 +41,18 @@ int main(void) {
 	//pid_t pid = getpid();
 	//initialisation
 	for (i = 0; i < SIZE_ANNEAU; i++) {
-		Anneau[i] = newPiece(i % 2, i % 2);
+		Anneau[i] = newPiece(4, 1);
 	}
 
 	//creation des threads
-	for(i =0; i<2;i++)
+	for(i =0; i<6;i++)
+	{
 		pthread_create(&thread[i], NULL, Robot, i );
+		usleep(2);
+	}
 
 	//simulation de rataion de l'anneau
-	while (j < 20) {
+	while (j < 1000) {
 		struct Piece tampon1, tampon2;
 		pthread_mutex_lock(&lock);
 
@@ -66,7 +69,7 @@ int main(void) {
 					Anneau[i].etat);
 		}
 		pthread_mutex_unlock(&lock);
-		sleep(1);
+		usleep(20);
 
 		printf("\n");
 		j++;

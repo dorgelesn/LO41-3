@@ -15,5 +15,5 @@ pthread_mutex_t lock;
 
 const int (*testOp[6]) (struct Piece piece, int compt);
 const struct Piece (*Op[6]) (struct Piece ressource[]);
-static const int index[6] = {2,4,8,10,12,14};
+static const int index[6] = {1,3,5,7,9,11};
 #endif /* MAIN_H_ */
