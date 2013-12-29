@@ -21,14 +21,14 @@ void prendre(int *c, struct Piece *stock, int i) {
 					|| (testOp[i](Anneau[pos], 3)))) {
 		printf("robot %d: prend piece: %d \n", i + 1, Anneau[pos].numProduit);
 		stock[0] = Anneau[pos];
-		Anneau[pos] = newPiece(0, 0);
+		Anneau[pos] = PieceNull;
 		compt++;
 	}
 	//on ne peut prendre qu'une piece deja prise
 	else if (testPiece(Anneau[pos], stock[0].numProduit, stock[0].etat)) {
 		printf("robot %d: prend piece: %d \n", i + 1, Anneau[pos].numProduit);
 		stock[compt] = Anneau[pos];
-		Anneau[pos] = newPiece(0, 0);
+		Anneau[pos] = PieceNull;
 		compt++;
 	} else {
 		printf("robot %d: piece %d incorrecte \n", i + 1,
@@ -40,15 +40,16 @@ void prendre(int *c, struct Piece *stock, int i) {
 void poser(struct Piece piece, int index) {
 
 	int compt;
-	if (testPiece(piece,1,5))
+	if (testPiece(piece, 1, 5))
 		compt = 10;
-	else if (testPiece(piece,2,5))
-			compt = 15;
-	else if (testPiece(piece,3,6))
-			compt = 12;
-	else if (testPiece(piece,4,4))
-			compt = 8;
-	else compt = 1;
+	else if (testPiece(piece, 2, 5))
+		compt = 15;
+	else if (testPiece(piece, 3, 6))
+		compt = 12;
+	else if (testPiece(piece, 4, 4))
+		compt = 8;
+	else
+		compt = 1;
 
 	while (1) {
 
@@ -58,7 +59,7 @@ void poser(struct Piece piece, int index) {
 			compt--;
 
 			pthread_mutex_unlock(&lock);
-			if(compt == 0)
+			if (compt == 0)
 				return;
 		}
 		pthread_mutex_unlock(&lock);
@@ -71,17 +72,16 @@ void * Robot(int num) {
 	struct Piece stock[3];
 	while (1) {
 
-		if((compt==1)&&(testPiece(stock[0],0,0)))
-				{
-			printf("robot %d: rejet piece erreur",num+1);
-			compt=0;
-				}
+		if ((compt == 1) && (testPiece(stock[0], 0, 0))) {
+			printf("robot %d: rejet piece erreur", num + 1);
+			compt = 0;
+		}
 		pthread_mutex_lock(&lock);
 		prendre(&compt, stock, num); //attention
 		pthread_mutex_unlock(&lock);
 
 		if (testOp[num](stock[0], compt)) {
-			printf("lancement de l'op %d \n",num+1);
+			printf("lancement de l'op %d \n", num + 1);
 			usleep(10);
 			struct Piece tampom = Op[num](stock);
 			if (!testPiece(tampom, 0, 0)) {

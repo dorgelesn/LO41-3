@@ -7,6 +7,7 @@
 
 #include "operation.h"
 #include "piece.h"
+#include "main.h"
 #include <stdlib.h>
 
 struct Piece op1(struct Piece ressource[]) {
@@ -47,7 +48,7 @@ struct Piece op1(struct Piece ressource[]) {
 		break;
 	}
 
-	return newPiece(0, 0);
+	return PieceNull;
 }
 
 struct Piece op2(struct Piece ressource[]) {
@@ -68,7 +69,7 @@ struct Piece op2(struct Piece ressource[]) {
 	default:
 		break;
 	}
-	return newPiece(0, 0);
+	return PieceNull;
 }
 
 struct Piece op3(struct Piece ressource[]) {
@@ -96,7 +97,7 @@ struct Piece op3(struct Piece ressource[]) {
 		break;
 	}
 	}
-	return newPiece(0, 0);
+	return PieceNull;
 }
 
 struct Piece op4(struct Piece ressource[]) {
@@ -117,7 +118,7 @@ struct Piece op4(struct Piece ressource[]) {
 	default:
 		break;
 	}
-	return newPiece(0, 0);
+	return PieceNull;
 }
 
 struct Piece op5(struct Piece ressource[]) {
@@ -137,7 +138,7 @@ struct Piece op5(struct Piece ressource[]) {
 	default:
 		break;
 	}
-	return newPiece(0, 0);
+	return PieceNull;
 }
 
 struct Piece op6(struct Piece ressource[]) {
@@ -157,7 +158,7 @@ struct Piece op6(struct Piece ressource[]) {
 	default:
 		break;
 	}
-	return newPiece(0, 0);
+	return PieceNull;
 }
 
 int testOp1(struct Piece piece, int compt) {
