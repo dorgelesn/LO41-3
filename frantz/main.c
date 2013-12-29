@@ -41,7 +41,7 @@ int main(void) {
 	//pid_t pid = getpid();
 	//initialisation
 	for (i = 0; i < SIZE_ANNEAU; i++) {
-		Anneau[i] = newPiece(4, 1);
+		Anneau[i] = newPiece(1, 1);
 	}
 
 	//creation des threads
@@ -64,6 +64,7 @@ int main(void) {
 		}
 
 		//affichage de l'anneau
+		printf("    -------tour %d-------    \n",j);
 		for (i = 0; i < SIZE_ANNEAU; i++) {
 			printf("Anneau %d: %d : %d \n", i, Anneau[i].numProduit,
 					Anneau[i].etat);

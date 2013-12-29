@@ -38,13 +38,28 @@ void prendre(int *c, struct Piece *stock, int i) {
 }
 
 void poser(struct Piece piece, int index) {
+
+	int compt;
+	if (testPiece(piece,1,5))
+		compt = 10;
+	else if (testPiece(piece,2,5))
+			compt = 15;
+	else if (testPiece(piece,3,6))
+			compt = 12;
+	else if (testPiece(piece,4,4))
+			compt = 8;
+	else compt = 1;
+
 	while (1) {
 
 		pthread_mutex_lock(&lock);
 		if (testPiece(Anneau[index], 0, 0)) {
 			Anneau[index] = piece;
+			compt--;
+
 			pthread_mutex_unlock(&lock);
-			return;
+			if(compt == 0)
+				return;
 		}
 		pthread_mutex_unlock(&lock);
 		usleep(10);
