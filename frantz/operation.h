@@ -19,6 +19,11 @@ struct Piece op4(struct Piece ressource[]);
 struct Piece op5(struct Piece ressource[]);
 struct Piece op6(struct Piece ressource[]);
 
+struct Piece opD1(struct Piece ressource[]);
+struct Piece opD2(struct Piece ressource[]);
+struct Piece opD3(struct Piece ressource[]);
+struct Piece opD4(struct Piece ressource[]);
+
 // renvoie 1 si la piece peut etre envoyer dans l'operation correspondante
 // sinon renvoie 0
 int testOp1(struct Piece piece, int compt);
@@ -27,5 +32,10 @@ int testOp3(struct Piece piece, int compt);
 int testOp4(struct Piece piece, int compt);
 int testOp5(struct Piece piece, int compt);
 int testOp6(struct Piece piece, int compt);
+
+int testOpD1(struct Piece piece, int compt);
+int testOpD2(struct Piece piece, int compt);
+int testOpD3(struct Piece piece, int compt);
+int testOpD4(struct Piece piece, int compt);
 
 #endif /* OPERATION_H_ */

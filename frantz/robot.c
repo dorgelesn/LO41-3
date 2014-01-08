@@ -19,20 +19,20 @@ void prendre(int *c, struct Piece *stock, int i) {
 	if ((compt == 0)
 			&& ((testOp[i](Anneau[pos], 1)) || (testOp[i](Anneau[pos], 2))
 					|| (testOp[i](Anneau[pos], 3)))) {
-		printf("robot %d: prend piece: %d \n", i + 1, Anneau[pos].numProduit);
+		//printf("robot %d: prend piece: %d \n", i + 1, Anneau[pos].numProduit);
 		stock[0] = Anneau[pos];
 		Anneau[pos] = PieceNull;
 		compt++;
 	}
 	//on ne peut prendre qu'une piece deja prise
 	else if (testPiece(Anneau[pos], stock[0].numProduit, stock[0].etat)) {
-		printf("robot %d: prend piece: %d \n", i + 1, Anneau[pos].numProduit);
+		//printf("robot %d: prend piece: %d \n", i + 1, Anneau[pos].numProduit);
 		stock[compt] = Anneau[pos];
 		Anneau[pos] = PieceNull;
 		compt++;
 	} else {
-		printf("robot %d: piece %d incorrecte \n", i + 1,
-				Anneau[pos].numProduit);
+		//printf("robot %d: piece %d incorrecte \n", i + 1,
+				//Anneau[pos].numProduit);
 	}
 	*c = compt;
 }
@@ -53,16 +53,16 @@ void poser(struct Piece piece, int index) {
 
 	while (1) {
 
-		pthread_mutex_lock(&lock);
+		pthread_mutex_lock(&lockAnneau);
 		if (testPiece(Anneau[index], 0, 0)) {
 			Anneau[index] = piece;
 			compt--;
 
-			pthread_mutex_unlock(&lock);
+			pthread_mutex_unlock(&lockAnneau);
 			if (compt == 0)
 				return;
 		}
-		pthread_mutex_unlock(&lock);
+		pthread_mutex_unlock(&lockAnneau);
 		usleep(10);
 	}
 }
@@ -73,15 +73,15 @@ void * Robot(int num) {
 	while (1) {
 
 		if ((compt == 1) && (testPiece(stock[0], 0, 0))) {
-			printf("robot %d: rejet piece erreur", num + 1);
+			//printf("robot %d: rejet piece erreur", num + 1);
 			compt = 0;
 		}
-		pthread_mutex_lock(&lock);
+		pthread_mutex_lock(&lockAnneau);
 		prendre(&compt, stock, num); //attention
-		pthread_mutex_unlock(&lock);
+		pthread_mutex_unlock(&lockAnneau);
 
 		if (testOp[num](stock[0], compt)) {
-			printf("lancement de l'op %d \n", num + 1);
+			//printf("lancement de l'op %d \n", num + 1);
 			usleep(10);
 			struct Piece tampom = Op[num](stock);
 			if (!testPiece(tampom, 0, 0)) {

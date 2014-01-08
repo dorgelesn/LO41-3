@@ -10,6 +10,98 @@
 #include "main.h"
 #include <stdlib.h>
 
+int testOp1(struct Piece piece, int compt) {
+	if ((compt == 1)
+			&& ((testPiece(piece, 2, 3)) || (testPiece(piece, 3, 1))
+					|| (testPiece(piece, 3, 4)) || (testPiece(piece, 4, 3))))
+		return 1;
+	else if ((compt == 3) && (testPiece(piece, 1, 1)))
+		return 1;
+	else
+		return 0;
+}
+
+int testOp2(struct Piece piece, int compt) {
+	if ((compt == 1) && (testPiece(piece, 1, 2)))
+		return 1;
+	else if ((compt == 3) && (testPiece(piece, 2, 1)))
+		return 1;
+	else
+		return 0;
+}
+
+int testOp3(struct Piece piece, int compt) {
+	if ((compt == 1)
+			&& ((testPiece(piece, 1, 3)) || (testPiece(piece, 3, 2))
+					|| (testPiece(piece, 3, 5))))
+		return 1;
+	else
+		return 0;
+}
+
+int testOp4(struct Piece piece, int compt) {
+	if ((compt == 1) && (testPiece(piece, 2, 2)))
+		return 1;
+	else if ((compt == 2) && (testPiece(piece, 4, 1)))
+		return 1;
+	else
+		return 0;
+}
+
+int testOp5(struct Piece piece, int compt) {
+	if ((compt == 1) && ((testPiece(piece, 1, 4)) || (testPiece(piece, 3, 3))))
+		return 1;
+	else
+		return 0;
+}
+
+int testOp6(struct Piece piece, int compt) {
+	if ((compt == 1) && ((testPiece(piece, 2, 4)) || (testPiece(piece, 4, 2))))
+		return 1;
+	else
+		return 0;
+}
+
+int testOpD1(struct Piece piece, int compt) {
+	if (testOp1(piece, compt))
+		return 1;
+	else if (testOp2(piece, compt))
+		return 1;
+	else if (testOp5(piece, compt))
+		return 1;
+	else
+		return 0;
+}
+
+int testOpD2(struct Piece piece, int compt) {
+	if (testOp2(piece, compt))
+		return 1;
+	else if (testOp1(piece, compt))
+		return 1;
+	else
+		return 0;
+}
+
+int testOpD3(struct Piece piece, int compt) {
+	if (testOp3(piece, compt))
+		return 1;
+	else if (testOp4(piece, compt))
+		return 1;
+	else if (testOp6(piece, compt))
+		return 1;
+	else
+		return 0;
+}
+
+int testOpD4(struct Piece piece, int compt) {
+	if (testOp4(piece, compt))
+		return 1;
+	else if (testOp3(piece, compt))
+		return 1;
+	else
+		return 0;
+}
+
 struct Piece op1(struct Piece ressource[]) {
 	switch (ressource[0].numProduit) {
 	case (1): {
@@ -161,54 +253,39 @@ struct Piece op6(struct Piece ressource[]) {
 	return PieceNull;
 }
 
-int testOp1(struct Piece piece, int compt) {
-	if ((compt == 1)
-			&& ((testPiece(piece, 2, 3)) || (testPiece(piece, 3, 1))
-					|| (testPiece(piece, 3, 4)) || (testPiece(piece, 4, 3))))
-		return 1;
-	else if ((compt == 3) && (testPiece(piece, 1, 1)))
-		return 1;
-	else
-		return 0;
+
+struct Piece opD1(struct Piece ressource[]) {
+	if((testOp1(ressource[0],1)) || testOp1(ressource[0],3))
+		return op1(ressource);
+	else if((testOp2(ressource[0],1)) || testOp2(ressource[0],3))
+		return op2(ressource);
+	else if(testOp5(ressource[0],1))
+		return op5(ressource);
+	return PieceNull;
 }
 
-int testOp2(struct Piece piece, int compt) {
-	if ((compt == 1) && (testPiece(piece, 1, 2)))
-		return 1;
-	else if ((compt == 3) && (testPiece(piece, 2, 1)))
-		return 1;
-	else
-		return 0;
+struct Piece opD2(struct Piece ressource[]) {
+	if((testOp2(ressource[0],1)) || testOp2(ressource[0],3))
+		return op2(ressource);
+	else if((testOp1(ressource[0],1)) || testOp1(ressource[0],3))
+		return op1(ressource);
+	return PieceNull;
 }
 
-int testOp3(struct Piece piece, int compt) {
-	if ((compt == 1)
-			&& ((testPiece(piece, 1, 3)) || (testPiece(piece, 3, 2))
-					|| (testPiece(piece, 3, 5))))
-		return 1;
-	else
-		return 0;
+struct Piece opD3(struct Piece ressource[]) {
+	if(testOp3(ressource[0],1))
+		return op3(ressource);
+	else if((testOp4(ressource[0],1)) || (testOp4(ressource[0],2)))
+		return op4(ressource);
+	else if(testOp6(ressource[0],1))
+		return op6(ressource);
+	return PieceNull;
 }
 
-int testOp4(struct Piece piece, int compt) {
-	if ((compt == 1) && (testPiece(piece, 2, 2)))
-		return 1;
-	else if ((compt == 2) && (testPiece(piece, 4, 1)))
-		return 1;
-	else
-		return 0;
-}
-
-int testOp5(struct Piece piece, int compt) {
-	if ((compt == 1) && ((testPiece(piece, 1, 4)) || (testPiece(piece, 3, 3))))
-		return 1;
-	else
-		return 0;
-}
-
-int testOp6(struct Piece piece, int compt) {
-	if ((compt == 1) && ((testPiece(piece, 2, 4)) || (testPiece(piece, 4, 2))))
-		return 1;
-	else
-		return 0;
+struct Piece opD4(struct Piece ressource[]) {
+	if((testOp4(ressource[0],1)) || testOp4(ressource[0],2))
+		return op1(ressource);
+	else if(testOp3(ressource[0],1))
+		return op3(ressource);
+	return PieceNull;
 }
