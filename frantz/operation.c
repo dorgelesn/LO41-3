@@ -106,7 +106,7 @@ struct Piece op1(struct Piece ressource[]) {
 	switch (ressource[0].numProduit) {
 	case (1): {
 		//on vérifie qu'on n'a 3 C1
-		if ((testEtatPiece(ressource[0], 1)) && (testEtatPiece(ressource[1], 1))
+		if ((testPiece(ressource[0],1, 1)) && (testEtatPiece(ressource[1], 1))
 				&& (testEtatPiece(ressource[2], 1)))
 			return newPiece(1, 2);
 		else
@@ -284,7 +284,7 @@ struct Piece opD3(struct Piece ressource[]) {
 
 struct Piece opD4(struct Piece ressource[]) {
 	if((testOp4(ressource[0],1)) || testOp4(ressource[0],2))
-		return op1(ressource);
+		return op4(ressource);
 	else if(testOp3(ressource[0],1))
 		return op3(ressource);
 	return PieceNull;

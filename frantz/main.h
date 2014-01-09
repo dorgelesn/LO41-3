@@ -23,9 +23,9 @@ const struct Piece (*Op[6]) (struct Piece ressource[]);
 //index ou sont possitionner les robot
 static const int index[6] = {1,3,5,7,9,11};
 
-//poduction d'un cycle
+//poduction total
 static int prod[4] ;
-//production totale
+//production totalise a la fin du cycle précédent
 static int aProd[4] ;
 
 //nombre de ressource primaire encore a inséré dans l'anneau
