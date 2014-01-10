@@ -81,16 +81,19 @@ void entrer() {
 	if (newCycle == 0) {
 		//cycle en cour
 		if ((prod[0] != aProd[0]) || (prod[1] != aProd[1])
-				|| (prod[2] != aProd[2]) || (prod[3] != aProd[3]))
+				|| (prod[2] != aProd[2]) || (prod[3] != aProd[3])) {
+			//on test si on produit tout les eléments du nouveau cycle
 			if ((prod[0] % 10 == 0) && (prod[1] % 15 == 0)
 					&& (prod[2] % 12 == 0) && (prod[3] % 8 == 0)) {
 				newCycle = 1;
 				stade = 1;
-				aProd[0] = prod[0];
-				aProd[1] = prod[1];
-				aProd[2] = prod[2];
-				aProd[3] = prod[3];
+				int i;
+				for (i = 0; i < 4; i++)
+
+					if (prod[i] < Demande[i])
+						aProd[i] = -1;
 			}
+		}
 	}
 	if (newCycle == 1) {
 		//debut d'un nouveau cycle, on insert les composant
@@ -107,8 +110,6 @@ void entrer() {
 			deposer(newPiece(4, 1));
 			ResteProd[3]--;
 		}
-		int i;
-
 		stade++;
 		if (stade == 10)
 			newCycle = 0;
@@ -124,20 +125,19 @@ int divP(int q, int d, int multip) {
 }
 
 void calculeProd() {
-	printf("\n debut calcluleprod ");
+	//printf("\n debut calcluleprod \n");
 	ResteProd[0] = divP(Demande[0], 10, 3);
 	ResteProd[1] = divP(Demande[1], 15, 3);
 	ResteProd[2] = divP(Demande[2], 12, 1);
 	ResteProd[3] = divP(Demande[3], 8, 2);
-
-	int i;
-	for(i=0;i<4;i++)
-	{
-		printf("resprod : %d \t demande: %d", ResteProd[i], Demande[i]);
-	}
 }
 
 int finProd() {
+	int i;
+	for (i = 0; i < 4; i++) {
+		//printf("%d   prod : %d \t demande: %d \n", i, prod[i], Demande[i]);
+	}
+
 	//test que la production demander est obtenu
 	if ((Demande[0] <= prod[0]) && (Demande[1] <= prod[1])
 			&& (Demande[2] <= prod[2]) && (Demande[3] <= prod[3])) {
@@ -158,11 +158,17 @@ int main(void) {
 	int quit = 1;
 	while (quit != 0) {
 		int mode = 0;
-		while ((mode < 1) || (mode > 2)) {
+		while ((mode < 1) || (mode > 3)) {
 			printf("Selecttionnez un mode: \n");
 			printf("\t - Mode Normale : 1 \n");
 			printf("\t - Mode Dégrader : 2 \n");
+			printf("\t - Mode Normal sans affichage de l'anneau : 3 \n");
 			scanf("%d", &mode);
+		}
+		int affichage = 1;
+		if (mode == 3) {
+			affichage = 0;
+			mode = 1;
 		}
 
 		initialisation(mode);
@@ -171,7 +177,8 @@ int main(void) {
 		for (i = 0; i < 4; i++) {
 			printf("\n Combien de produit %d faut-il produire :", i + 1);
 			scanf("%d", &Demande[i]);
-			printf(" \n vous demander %d produit %d",Demande[i],i+1);
+			//blocage a se niveau au niveau du dernier scanf incomprit
+			//printf(" Vous demander %d produit %d",Demande[i],i+1);
 		}
 		calculeProd();
 
@@ -202,10 +209,13 @@ int main(void) {
 			}
 
 			//affichage de l'anneau
-			//printf("    -------tour %d-------    \n", j);
-			for (i = 0; i < SIZE_ANNEAU; i++) {
-			//	printf("Anneau %d: %d : %d \n", i, Anneau[i].numProduit,
-			//			Anneau[i].etat);
+			if (affichage) {
+				printf("    -------tour %d-------    \n", j);
+				for (i = 0; i < SIZE_ANNEAU; i++) {
+					printf("Anneau %d: %d : %d \n", i, Anneau[i].numProduit,
+							Anneau[i].etat);
+				}
+				printf("\n");
 			}
 			pthread_mutex_unlock(&lockAnneau);
 			usleep(30);
@@ -213,8 +223,10 @@ int main(void) {
 			j++;
 		}
 		int i;
+
+		//on arrete les robots
 		pthread_mutex_lock(&lockAnneau);
-		for(i=0;i <nbRobot;i++)
+		for (i = 0; i < nbRobot; i++)
 			pthread_cancel(thread[i]);
 		pthread_mutex_unlock(&lockAnneau);
 
@@ -231,4 +243,3 @@ int main(void) {
 	}
 	return 0;
 }
-

@@ -89,7 +89,7 @@ void * Robot(int num) {
 				compt = 0;
 			}
 		}
-		usleep(11);
+		usleep(1000);
 	}
 	pthread_exit(NULL );
 }
